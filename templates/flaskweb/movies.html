@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{%- set is_asec = 1 -%}
+{%- set html_title = '最愛電影' -%}
+{%- set en_title = 'Favorite Movies' -%}
+{%- set zh_title = '最愛電影' -%}
+{%- set jumbotron_class = 'jumbotron-light' -%}
+
+{% block html_title %}{{ html_title }}{% endblock %}
+{% block en_title %}{{ en_title }}{% endblock %}
+{% block zh_title %}{{ zh_title }}{% endblock %}
+
+{%- block internal_style %}
+    <style type="text/css">
+        .movie-clip h4 {
+            margin-top: 60px;
+        }
+    </style>
+{%- endblock %}
+
+{%- block menu -%}
+                <li class="nav-item"><a class="nav-link" href="/flaskweb#sec05">Back</a></li>
+{%- endblock -%}
+
+{% block content %}
+        <div class="section-divider"></div>
+        <section>
+            <div class="row">
+                <h2 class="text-primary col-md-6 offset-md-3">
+                    <a class="btn btn-lg btn-block btn-dark" target="_self" href="/flaskweb/movies/all">All</a>
+                </h2>
+            </div>
+            <hr>
+            {% for act in list_movies %}
+                {% if act_id == 'all' or act_id == act.act_id %}
+            <div class="row">
+                <h3 class="text-primary col-md-6 offset-md-3">
+                    <a class="btn btn-lg btn-block btn-primary" target="_self" href="/flaskweb/movies/{{ act.act_id }}">{{ act.act_name }}</a>
+                </h3>
+            </div>
+                    {% if act_id == act.act_id %}
+            <div class="row">
+                        {% for movie_year, movie_name, trailer in act.movies %}
+                <div class="col-lg-4 movie-clip">
+                    <h4>{{ movie_name }} <small class="text-info">{{ movie_year }}</small></h4>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{{ trailer }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+                        {% endfor %}
+            </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </section>
+{% endblock %}

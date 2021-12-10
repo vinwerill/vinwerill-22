@@ -1,0 +1,4 @@
+account: password
+teacher: masterbug
+student: ilovepyone
+general: noneed

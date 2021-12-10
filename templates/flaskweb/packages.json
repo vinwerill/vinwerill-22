@@ -1,0 +1,152 @@
+[
+    {
+        "pkg_name":"Pillow",
+        "pkg_intro":"Python Imaging Library (Fork)",
+        "pkg_link":"https://pypi.org/project/Pillow/"
+    },
+    {
+        "pkg_name":"matplotlib",
+        "pkg_intro":"Python plotting package",
+        "pkg_link":"https://pypi.org/project/matplotlib/"
+    },
+    {
+        "pkg_name":"numpy",
+        "pkg_intro":"NumPy is the fundamental package for array computing with Python.",
+        "pkg_link":"https://pypi.org/project/numpy/"
+    },
+    {
+        "pkg_name":"opencv-python",
+        "pkg_intro":"Wrapper package for OpenCV python bindings.",
+        "pkg_link":"https://pypi.org/project/opencv-python/"
+    },
+    {
+        "pkg_name":"requests",
+        "pkg_intro":"Python HTTP for Humans.",
+        "pkg_link":"https://pypi.org/project/requests/"
+    },
+    {
+        "pkg_name":"Keras",
+        "pkg_intro":"Deep Learning for humans",
+        "pkg_link":"https://pypi.org/project/Keras/"
+    },
+    {
+        "pkg_name":"tensorflow",
+        "pkg_intro":"TensorFlow is an open source machine learning framework for everyone.",
+        "pkg_link":"https://pypi.org/project/tensorflow/"
+    },
+    {
+        "pkg_name":"Theano",
+        "pkg_intro":"Optimizing compiler for evaluating mathematical expressions on CPUs and GPUs.",
+        "pkg_link":"https://pypi.org/project/Theano/"
+    },
+    {
+        "pkg_name":"nltk",
+        "pkg_intro":"Natural Language Toolkit",
+        "pkg_link":"https://pypi.org/project/nltk/"
+    },
+    {
+        "pkg_name":"fire",
+        "pkg_intro":"A library for automatically generating command line interfaces.",
+        "pkg_link":"https://pypi.org/project/fire/"
+    },
+    {
+        "pkg_name":"arrow",
+        "pkg_intro":"Better dates & times for Python",
+        "pkg_link":"https://pypi.org/project/arrow/"
+    },
+    {
+        "pkg_name":"flashtext",
+        "pkg_intro":"Extract/Replaces keywords in sentences.",
+        "pkg_link":"https://pypi.org/project/flashtext/"
+    },
+    {
+        "pkg_name":"scipy",
+        "pkg_intro":"SciPy: Scientific Library for Python",
+        "pkg_link":"https://pypi.org/project/scipy/"
+    },
+    {
+        "pkg_name":"SQLAlchemy",
+        "pkg_intro":"Database Abstraction Library",
+        "pkg_link":"https://pypi.org/project/SQLAlchemy/"
+    },
+    {
+        "pkg_name":"wxPython",
+        "pkg_intro":"Cross platform GUI toolkit for Python, 'Phoenix' version",
+        "pkg_link":"https://pypi.org/project/wxPython/"
+    },
+    {
+        "pkg_name":"cirq",
+        "pkg_intro":"A framework for creating, editing, and invoking Noisy Intermediate Scale Quantum (NISQ) circuits.",
+        "pkg_link":"https://pypi.org/project/cirq/"
+    },
+    {
+        "pkg_name":"pytorch",
+        "pkg_intro":"No project description provided",
+        "pkg_link":"https://pypi.org/project/pytorch/"
+    },
+    {
+        "pkg_name":"luminoth",
+        "pkg_intro":"Computer vision toolkit based on TensorFlow",
+        "pkg_link":"https://pypi.org/project/luminoth/"
+    },
+    {
+        "pkg_name":"Delorean",
+        "pkg_intro":"library for manipulating datetimes with ease and clarity",
+        "pkg_link":"https://pypi.org/project/Delorean/"
+    },
+    {
+        "pkg_name":"beautifulsoup4",
+        "pkg_intro":"Screen-scraping library",
+        "pkg_link":"https://pypi.org/project/beautifulsoup4/"
+    },
+    {
+        "pkg_name":"bokeh",
+        "pkg_intro":"Interactive plots and applications in the browser from Python",
+        "pkg_link":"https://pypi.org/project/bokeh/"
+    },
+    {
+        "pkg_name":"poetry",
+        "pkg_intro":"Python dependency management and packaging made easy.",
+        "pkg_link":"https://pypi.org/project/poetry/"
+    },
+    {
+        "pkg_name":"gensim",
+        "pkg_intro":"Python framework for fast Vector Space Modelling",
+        "pkg_link":"https://pypi.org/project/gensim/"
+    },
+    {
+        "pkg_name":"pandas2",
+        "pkg_intro":"pandas2",
+        "pkg_link":"https://pypi.org/project/pandas2/"
+    },
+    {
+        "pkg_name":"pytil",
+        "pkg_intro":"Python 3 utility library",
+        "pkg_link":"https://pypi.org/project/pytil/"
+    },
+    {
+        "pkg_name":"scikit-learn",
+        "pkg_intro":"A set of python modules for machine learning and data mining",
+        "pkg_link":"https://pypi.org/project/scikit-learn/"
+    },
+    {
+        "pkg_name":"networkx",
+        "pkg_intro":"Python package for creating and manipulating graphs and networks",
+        "pkg_link":"https://pypi.org/project/networkx/"
+    },
+    {
+        "pkg_name":"pygame",
+        "pkg_intro":"Python Game Development",
+        "pkg_link":"https://pypi.org/project/pygame/"
+    },
+    {
+        "pkg_name":"textblob",
+        "pkg_intro":"Simple, Pythonic text processing. Sentiment analysis, part-of-speech tagging, noun phrase parsing, and more.",
+        "pkg_link":"https://pypi.org/project/textblob/"
+    },
+    {
+        "pkg_name":"mahotas",
+        "pkg_intro":"Mahotas: Computer Vision Library",
+        "pkg_link":"https://pypi.org/project/mahotas/"
+    }
+]

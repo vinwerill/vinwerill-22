@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{%- set is_chap = 1 -%}
+{%- set has_code = 1 -%}
+{%- set html_title = '高級專案平台' -%}
+{%- set en_title = 'Heroku' -%}
+{%- set zh_title = '高級專案平台' -%}
+
+{% block menu %}
+                <li class="nav-item"><a class="nav-link" href="#sec01">Heroku</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec02">專案部署</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec03">Uptime Robot</a></li>
+{% endblock %}
+
+{% block content %}
+        <div id="sec00"></div>
+        <section class="section-chapter">
+            <h2 class="text-danger">{{ zh_title }}</h2>
+            <hr>
+        </section>
+
+        <div id="sec01" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">Heroku</h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://id.heroku.com/login">Log in Heroku</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://dashboard.heroku.com/apps">Dashboard</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://www.heroku.com/">Heroku</a>
+                </div>
+            </div>
+
+            <h4>線上文件</h4>
+            <div class="col-lg-6 list-group">
+                <a class="list-group-item" target="_blank" href="https://devcenter.heroku.com/articles/heroku-cli">The Heroku CLI</a>
+                <a class="list-group-item" target="_blank" href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started on Heroku with Python</a>
+            </div>
+        </section>
+
+        <div id="sec02" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">專案部署</h2>
+
+            <h4>更新套件檔案 <span class="text-danger">requirements.txt</span></h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>pip freeze > requirements.txt</span>
+                </code>
+            </pre>
+
+            <h4>檔案 <span class="text-danger">Procfile</span></h4>
+            <pre class="with-cmd">
+                <code class="html">
+            web: gunicorn app:app
+                </code>
+            </pre>
+
+            <h4>更新版本檔案 <span class="text-danger">runtime.txt</span></h4>
+            <pre class="with-cmd">
+                <code class="html">
+            python-3.8.7
+                </code>
+            </pre>
+
+            <h4>新增 Heroku 儲存庫</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>heroku git:remote -a flaskpyone</span>
+                </code>
+            </pre>
+
+            <h4>檔案 <span class="text-danger">.git/config</span></h4>
+            <pre class="with-cmd">
+                <code class="html">
+            [core]
+                repositoryformatversion = 0
+                filemode = false
+                bare = false
+                logallrefupdates = true
+                symlinks = false
+                ignorecase = true
+            [remote "origin"]
+                url = git@flaskpyone:flaskpyone/flaskpyone.git
+                fetch = +refs/heads/*:refs/remotes/origin/*
+            [branch "master"]
+                remote = origin
+                merge = refs/heads/master
+            [user]
+                name = flaskpyone
+                email = flask.pyone@gmail.com
+            [remote "heroku"]
+                url = https://git.heroku.com/flaskpyone.git
+                fetch = +refs/heads/*:refs/remotes/heroku/*
+                </code>
+            </pre>
+
+            <h4>部署指令</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>cd flaskpyone</span>
+            $ <span>git add .</span>
+            $ <span>git commit -m "message"</span>
+
+            # 更新至 GitHub
+            $ <span>git push</span>
+
+            # 部署至 Heroku
+            $ <span>git push heroku</span>
+                </code>
+            </pre>
+
+            <h4>Heroku 登入登出</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 登入 Heroku
+            $ <span>heroku login -i</span>
+
+            # 啟動專案
+            $ <span>heroku ps:scale web=1</span>
+
+            # 登出 Heroku
+            $ <span>heroku logout</span>
+                </code>
+            </pre>
+
+            <h4>Heroku 管理指令</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 檢查網站是否執行中
+            $ <span>heroku ps</span>
+
+            # 更新 Heroku CLI 版本
+            $ <span>heroku update</span>
+
+            # 檢查狀態
+            $ <span>heroku status</span>
+
+            # 檢視日誌訊息
+            $ <span>heroku logs -t</span>
+                </code>
+            </pre>
+
+            <h4>Heroku 終端</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 連線至終端資料夾
+            $ <span>heroku run bash</span>
+                </code>
+            </pre>
+
+            <h4>部署錯誤</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 錯誤訊息 AttributeError: module 'pip._vendor.requests' has no attribute 'Session'
+            # 執行下列指令
+            $ <span>heroku plugins:install heroku-repo</span>
+            $ <span>heroku repo:purge_cache -a flaskpyone</span>
+                </code>
+            </pre>
+
+            <h4>重建 repo</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>heroku plugins:install heroku-repo</span>
+            $ <span>heroku repo:reset</span>
+                </code>
+            </pre>
+
+            <h4>重建 app</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>heroku apps:destroy flaskpyone</span>
+            $ <span>heroku create flaskpyone</span>
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec03" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">Uptime Robot</h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://uptimerobot.com/">Uptime Robot</a>
+                </div>
+            </div>
+        </section>
+{% endblock %}

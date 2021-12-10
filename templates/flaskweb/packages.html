@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{%- set is_asec = 1 -%}
+{%- set html_title = '最佳套件' -%}
+{%- set en_title = 'Best Packages' -%}
+{%- set zh_title = '最佳套件' -%}
+{%- set jumbotron_class = 'jumbotron-light' -%}
+
+{% block html_title %}{{ html_title }}{% endblock %}
+{% block en_title %}{{ en_title }}{% endblock %}
+{% block zh_title %}{{ zh_title }}{% endblock %}
+
+{%- block menu -%}
+                <li class="nav-item"><a class="nav-link" href="/flaskweb#sec05">Back</a></li>
+{%- endblock -%}
+
+{% block content %}
+        <div class="section-divider"></div>
+        <section>
+            <div class="row">
+            {% for pkg in list_packages %}
+                <div class="col-md-4">
+                    {% set name, intro, link = pkg.values() %}
+                    <a class="btn btn-lg btn-info btn-block text-left" href="{{ link }}" target="_blank" rel="noopener noreferrer">{{ '%02d' % (loop.index) }}. {{ name }}</a>
+                    <p><strong>{{ intro }}</strong></p>
+                </div>
+            {% endfor %}
+            </div>
+        </section>
+{% endblock %}

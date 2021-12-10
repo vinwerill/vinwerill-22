@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{%- set is_chap = 1 -%}
+{%- set has_code = 1 -%}
+{%- set html_title = '資料開放平台' -%}
+{%- set en_title = 'Open Data' -%}
+{%- set zh_title = '資料開放平台' -%}
+
+{% block menu %}
+                <li class="nav-item"><a class="nav-link" href="#sec01">政府資源</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec02">停車場</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec03">文化遺產</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec09">網頁版</a></li>
+{% endblock %}
+
+{% block content %}
+        <div id="sec00"></div>
+        <section class="section-chapter">
+            <h2 class="text-danger">{{ zh_title }}</h2>
+            <hr>
+        </section>
+
+        <div id="sec01" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">政府資源</h2>
+            <br>
+            <div class="col-lg-6 list-group">
+                <a class="list-group-item" target="_blank" href="https://data.kcg.gov.tw/">高雄市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://data.taipei/">臺北市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://data.ntpc.gov.tw/">新北市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://data.tycg.gov.tw/">桃園市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://opendata.taichung.gov.tw/">臺中市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://data.tainan.gov.tw/">臺南市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://opendata.hccg.gov.tw/">新竹市政府資料開放平台</a>
+                <a class="list-group-item" target="_blank" href="https://data.gov.tw/">政府資料開放平臺</a>
+                <a class="list-group-item" target="_blank" href="https://opendata.tca.org.tw/">資料服務產業應用推動計畫</a>
+                <a class="list-group-item" target="_blank" href="https://theme.npm.edu.tw/opendata/index.aspx">故宮 Open Data 專區</a>
+            </div>
+
+            <h4>相關模組</h4>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://docs.python.org/3/library/csv.html">CSV</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://docs.python.org/3/library/json.html">JSON</a>
+                </div>
+            </div>
+
+            <h4>Python 與 JSON 資料型態對映表</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Python</th>
+                        <th>JSON</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>dict</td>
+                        <td>object</td>
+                    </tr>
+                    <tr>
+                        <td>list, tuple</td>
+                        <td>array</td>
+                    </tr>
+                    <tr>
+                        <td>str</td>
+                        <td>string</td>
+                    </tr>
+                    <tr>
+                        <td>int, float</td>
+                        <td>number</td>
+                    </tr>
+                    <tr>
+                        <td>True</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>None</td>
+                        <td>null</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div id="sec02" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">停車場</h2>
+
+            <h4>高雄市公有路外停車場一覽表</h4>
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="http://data.kcg.gov.tw/dataset/department-of-transportation30/resource/fe3f93da-9673-4f7b-859c-9017d793f798">存取資源</a>
+                </div>
+            </div>
+            <pre>
+                <code class="python">
+            # 高雄市公有路外停車場一覽表
+            import sys
+            import urllib.request
+            import json
+            import csv
+
+            def fetch(query_limit):
+                # 指定查詢筆數上限
+                url = 'http://data.kcg.gov.tw/api/action/datastore_search?resource_id=cd53c749-abeb-47db-b58c-5954d6c337a1'
+                if query_limit > 0:
+                    url = url+'&limit={}'.format(query_limit)
+                req = urllib.request.urlopen(url)
+
+                # 確認資料庫編碼 (utf-8)
+                charset = req.info().get_content_charset()
+                # print('資料庫編碼:', charset)
+
+                # response_data = req.read().decode(charset)
+                response_data = req.read()
+                # 全部資料
+                json_data = json.loads(response_data)
+                return json_data
+
+
+            if __name__ == '__main__':
+                qlimit = int(input('設定查詢筆數 (0.all | -1.quit): '))
+                if qlimit == -1:
+                    sys.exit()
+                json_data = fetch(qlimit)
+                print(json.dumps(json_data, sort_keys=True, indent=4), file=open('parking.json', 'wt'))
+
+                print('停車場欄位:')
+                for col in json_data['result']['fields']:
+                    print(col)
+
+                print('\n'+'停車場資料:')
+                for row in json_data['result']['records']:
+                    print(row)
+
+                # encoding='utf8' (不支援 ASCII)
+                # newline='' (若未設定，每列後會再斷行)
+                parking_data = json_data['result']['records']
+                with open('parking.csv', 'w', newline='', encoding='utf8') as parking_csv:
+                    # 資料寫入檔案
+                    csvwriter = csv.writer(parking_csv)
+                    count = 0
+                    for row in parking_data:
+                        if count == 0:
+                            header = row.keys()
+                            csvwriter.writerow(header)
+                        count += 1
+                        csvwriter.writerow(row.values())
+                print('\n'+'資料筆數:', count)
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec03" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">文化遺產</h2>
+
+            <h4>高雄市文化遺產</h4>
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="http://opendata.khcc.gov.tw/public/OD_Heritage.ashx">存取資源</a>
+                </div>
+            </div>
+            <pre>
+                <code class="python">
+            # 高雄市文化資產
+            import urllib.request
+            import json
+            from random import sample
+
+            def fetch(query_limit):
+                url = 'http://opendata.khcc.gov.tw/public/OD_Heritage.ashx'
+                retries = 1
+                while True:
+                    try:
+                        with urllib.request.urlopen(url, timeout=5) as req:
+                            response_data = req.read()
+                            break
+                    except:
+                        print('Timeout:', retries)
+                        retries += 1
+                json_data = json.loads(response_data)
+                if query_limit > 0:
+                    return sample(json_data, query_limit)
+                return json_data
+
+
+            if __name__ == '__main__':
+                json_data = fetch(0)
+                print(json.dumps(json_data, sort_keys=True, indent=4), file=open('heritage.json', 'wt'))
+
+                count = 0
+                for row in json_data:
+                    # 印出欄位
+                    if count == 0:
+                        header = row.keys()
+                        print(header)
+                    # 印出資料
+                    print('\n' + '-'*80 + '\n')
+                    for key, value in row.items():
+                        print(key, ':', value)
+                    count += 1
+                print('\n', '資料筆數:', count)
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec09" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">網頁版</h2>
+            <br>
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>範例</th>
+                        <th>說明</th>
+                        <th>連結</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>opendata/parking.html</td>
+                        <td>高雄市公有路外停車場一覽表</td>
+                        <td><a href="/opendata/parking">/opendata/parking</a></td>
+                    </tr>
+                    <tr>
+                        <td>opendata/heritage.html</td>
+                        <td>高雄市文化遺產</td>
+                        <td><a href="/opendata/heritage">/opendata/heritage</a></td>
+                    </tr>
+                    <tr>
+                        <td>opendata/heritage.html</td>
+                        <td>高雄市補習班</td>
+                        <td><a href="/opendata/cramschool">/opendata/cramschool</a></td>
+                    </tr>
+                    <tr>
+                        <td>opendata/heritage.html</td>
+                        <td>金門旅遊景點</td>
+                        <td><a href="/opendata/kinmen_tourist_spot/">/opendata/kinmen_tourist_spot/</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+{% endblock %}

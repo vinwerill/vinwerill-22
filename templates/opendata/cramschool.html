@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{%- set is_asec = 1 -%}
+{%- set html_title = '高雄市補習班一覽表' -%}
+{%- set en_title = 'Kaohsiung Parking Lots' -%}
+{%- set zh_title = '高雄市補習班一覽表' -%}
+{%- set jumbotron_class = 'jumbotron-light' -%}
+
+{% block html_title %}{{ html_title }}{% endblock %}
+{% block en_title %}{{ en_title }}{% endblock %}
+{% block zh_title %}{{ zh_title }}{% endblock %}
+
+{% block content %}
+        <div class="section-divider"></div>
+        <section>
+            <div class="row">
+                <div class="col-4">
+                    <!-- <button class="btn btn-lg btn-primary" id="btnGetList">擷取資料</button> -->
+                    &nbsp;&nbsp;
+                    <span id="processing" class="processing no-display"> <img src="/static/img/preloader.gif"> </span>
+                </div>
+            </div>
+            <hr>
+            <div id="listData"> </div>
+        </section>
+{% endblock %}
+
+{%- block menu -%}
+                <li class="nav-item"><a class="nav-link" href="/opendata#sec09">Back</a></li>
+{%- endblock -%}
+
+{% block extra_js %}
+    <script>
+        // $('#btnGetList').on('click', function() {
+            $.ajax({'type': 'GET', 'url': '/opendata/cramschool/10',
+                beforeSend: function(){ $('#processing').removeClass('no-display'); },
+            })
+            .done(function(data, textStatus, jqXHR) {
+                var items = [];
+                $.each(data.jsonData, function(index, row) {
+                    items.push('<h3><p class="text-success">'+row.短期補習班名稱+'</p></h3>');
+                    items.push('<p class="text-muted">'+row.短期補習班類別+'</p>');
+                    items.push('<p class="text-muted">'+'電子郵件：'+row.電子郵件+'</p>');
+                    // items.push('<iframe style="border: solid 1px #666;width:100%;height:30vh;margin-bottom:30px;'+"src=https://www.google.com/maps/place/800"+row.地址+'2/@22.6344003,120.3048614,17z/data=!3m1!4b1!4m5!3m4!1s0x346e048d1175bcb1:0x653176d535fd549c!8m2!3d22.6416911!4d120.3541125&output=embed></iframe>');
+                });
+
+                $('#listData').html(items.join(''));
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) { alertError(jqXHR.status); })
+            .always(function(){ $('#processing').addClass('no-display'); });
+        // });
+    </script>
+{% endblock %}

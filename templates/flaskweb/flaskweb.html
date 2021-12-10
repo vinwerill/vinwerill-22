@@ -1,0 +1,486 @@
+{% extends 'base.html' %}
+{%- set is_chap = 1 -%}
+{%- set has_code = 1 -%}
+{%- set html_title = '動態網站開發' -%}
+{%- set en_title = 'Flask Web' -%}
+{%- set zh_title = '動態網站開發' -%}
+
+{% block menu %}
+                <li class="nav-item"><a class="nav-link" href="#sec01">動態網站</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec02">專案資料夾</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec03">專案主檔</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec04">樣板引擎</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec05">基礎範例</a></li>
+{% endblock %}
+
+{% block content %}
+        <div id="sec00"></div>
+        <section class="section-chapter">
+            <h2 class="text-danger">{{ zh_title }}</h2>
+            <hr>
+        </section>
+
+        <div id="sec01" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">Flask 動態網站</h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://flask.palletsprojects.com/">Flask</a>
+                </div>
+            </div>
+
+            <h4>Windows 虛擬環境</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 建立虛擬環境
+            $ <span>python -m venv \vflask</span>
+
+            # 啟動虛擬環境
+            $ <span>\vflask\Scripts\activate</span>
+
+            # 離開虛擬環境
+            (vflask) $ <span>deactivate</span>
+                </code>
+            </pre>
+
+            <h4>Linux 虛擬環境</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 建立虛擬環境
+            $ <span>python3 -m venv ~/vflask</span>
+
+            # 啟動虛擬環境
+            $ <span>source ~/vflask/bin/activate</span>
+
+            # 離開虛擬環境
+            (vflask) $ <span>deactivate</span>
+                </code>
+            </pre>
+
+            <h4>pip 一般指令</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>指令</th>
+                        <th>說明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>pip install <i>package-name</i></td>
+                        <td>安裝套件</td>
+                    </tr>
+                    <tr>
+                        <td>pip install <i>package-name</i> --upgrade</td>
+                        <td>更新套件</td>
+                    </tr>
+                    <tr>
+                        <td>pip uninstall <i>package-name</i></td>
+                        <td>移除套件</td>
+                    </tr>
+                    <tr>
+                        <td>pip freeze</td>
+                        <td>套件列表</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>安裝 Flask 相關套件</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 建立專案資料夾
+            $ <span>mkdir myproject</span>
+
+            # 進入專案資料夾
+            $ <span>cd myproject</span>
+
+            # 安裝 Flask
+            $ <span>pip install flask</span>
+                </code>
+            </pre>
+
+            <h4>執行環境設定</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>pip install python-dotenv</span>
+                </code>
+            </pre>
+
+            <h5>設定檔案 .flaskenv</h5>
+            <pre class="with-cmd">
+                <code class="html">
+            FLASK_APP=app
+            FLASK_ENV=development
+            FLASK_DEBUG=1
+                </code>
+            </pre>
+
+            <h5>執行主檔 app.py</h5>
+            <pre>
+                <code class="python">
+            from flask import Flask
+            app = Flask(__name__)
+
+            @app.route('/')
+            def hello_world():
+                return 'Hello, World!'
+                </code>
+            </pre>
+
+            <h4>啟動 Flask 網站</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            # 使用預設通訊埠號 (80)
+            $ <span>flask run</span>
+
+            # 指定通訊埠號
+            $ <span>flask run --port=8888</span>
+                </code>
+            </pre>
+
+            <h4>安裝相關套件</h4>
+            <pre class="with-cmd">
+                <code class="html">
+            $ <span>pip install firebase_admin</span>
+            $ <span>pip install xmltodict</span>
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec02" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">專案資料夾</h2>
+
+            <h4>專案 flaskpyone</h4>
+            <div>
+                <pre class="with-cmd">
+                    <code class="html">
+            flaskpyone/             # 專案資料夾
+                static/             # 靜態檔案資料夾 (*.css, *.js, *.jpg, *.png)
+                templates/          # 網頁樣板資料夾 (*.html)
+
+                .flaskenv           # 執行環境設定
+                .gitignore          # git 忽略清單
+                app.py              # 執行主檔
+                requirements.txt    # 專案部署套件清單
+                upgrade.py          # 套件更新程式
+                utils.py            # 公用程式模組
+                    </code>
+                </pre>
+            </div>
+        </section>
+
+        <div id="sec03" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">專案主檔</h2>
+
+            <h4>檔案 app.py (部分) <small class="text-muted">(21.03)</small></h4>
+            <pre>
+                <code class="python">
+            import os
+            import sys
+            import random
+            import time
+            import urllib.request
+            import xmltodict
+            import json
+            from datetime import date, timedelta
+            from functools import wraps
+            from geptdb import GEPTDB
+            from werkzeug.local import LocalProxy
+            from flask import Flask, render_template, send_from_directory
+            from flask import session, request, redirect, url_for, current_app
+            import utils
+
+            app = Flask(__name__)
+            log = LocalProxy(lambda: current_app.logger)
+            SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+            # SHA-256 from 'flask20210112'
+            app.config['SECRET_KEY'] = '18f4173d24f63dd99d2700aad88002c61c864f83255f5c76da4a0002db1f31c4'
+            app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+            cyear = date.today().year
+            nowid = lambda: utils.get_nowid()
+            dtnow = lambda: utils.get_datetime()
+            db = GEPTDB()
+
+            @app.before_request
+            def before_request():
+                if 'DYNO' in os.environ:
+                    if request.url.startswith('http://'):
+                        url = request.url.replace('http://', 'https://', 1)
+                        code = 301
+                        return redirect(url, code=code)
+
+            def login_required(func):
+                @wraps(func)
+                def decorated_function(*args, **kwargs):
+                    if session.get('is_auth') is None:
+                        return redirect(url_for('index'))
+                    return func(*args, **kwargs)
+                return decorated_function
+
+
+            @app.route('/', methods=['GET', 'POST'])
+            def index():
+                login_failed = ''
+                if request.method == 'POST':
+                    # log.info(request.form)
+                    dict_roles = {
+                        'general': 'cc2d3eefaac683c8f5b7499459c3675409e3ca75c60eb8048eecb0afa1f345d4',
+                        'student': '70fbd79510328e4b69838e515763f47cfc31bb83eb39c5cefb18df273f3f6dbe',
+                        'teacher': '0c827b12d3527f2fc7dbdb0dcc2dce3d41505e9fe78a1e98fcd45adebb140ec5',
+                    }
+                    if 'selRole' in request.form and 'txtPassword' in request.form:
+                        the_role = request.form.get('selRole')
+                        if the_role in dict_roles and request.form.get('txtPassword') == dict_roles[the_role]:
+                            session['is_auth'] = True
+                            session['role_name'] = the_role
+                            session['account'] = the_role
+                            return redirect(url_for('home'))
+                        elif the_role not in dict_roles:
+                            login_failed = '登入失敗：身份識別錯誤'
+                        else:
+                            login_failed = '登入失敗：通行密碼錯誤'
+                    else:
+                        return redirect(url_for('denied'))
+                return render_template('login-home.html', login_failed=login_failed, cyear=cyear, nowid=nowid())
+
+            @app.route('/logout', methods=['GET', 'POST'])
+            def logout():
+                session.clear()
+                return redirect(url_for('home'))
+
+            @app.route('/favicon.ico')
+            def favicon():
+                return send_from_directory(os.path.join(app.root_path, 'static'),
+                    'favicon.ico', mimetype='image/x-icon')
+
+            @app.route('/robots.txt')
+            def robots():
+                return send_from_directory(os.path.join(app.root_path, 'static'),
+                    'robots.txt', mimetype='text/plain')
+
+            @app.route('/denied')
+            def denied():
+                return render_template("denied.html", cyear=cyear, nowid=nowid())
+
+            @app.errorhandler(404)
+            def not_found(e):
+                return render_template("404.html", cyear=cyear, nowid=nowid()), 404
+
+            @app.route('/home')
+            @login_required
+            def home():
+                # log.info(session)
+                return render_template('home.html', cyear=cyear, dtnow=dtnow(), nowid=nowid())
+                </code>
+            </pre>
+
+            <h4>檔案 requirements.txt <small class="text-muted">(21.02)</small></h4>
+            <pre class="with-cmd">
+                <code class="html">
+            beautifulsoup4==4.9.3
+            CacheControl==0.12.6
+            cachetools==4.1.1
+            certifi==2020.12.5
+            chardet==3.0.4
+            click==7.1.2
+            firebase-admin==4.4.0
+            Flask==1.1.2
+            google-api-core==1.22.4
+            google-api-python-client==1.12.3
+            google-auth==1.22.1
+            google-auth-httplib2==0.0.4
+            google-auth-oauthlib==0.4.2
+            google-cloud-core==1.4.3
+            google-cloud-firestore==1.9.0
+            google-cloud-storage==1.31.2
+            google-crc32c==1.0.0
+            google-resumable-media==1.1.0
+            googleapis-common-protos==1.52.0
+            grpcio==1.32.0
+            gspread==3.7.0
+            gunicorn==20.0.4
+            httplib2==0.18.1
+            idna==2.10
+            itsdangerous==1.1.0
+            Jinja2==2.11.2
+            MarkupSafe==1.1.1
+            msgpack==1.0.0
+            oauth2client==4.1.3
+            oauthlib==3.1.0
+            protobuf==3.14.0
+            pyasn1==0.4.8
+            pyasn1-modules==0.2.8
+            python-dotenv==0.15.0
+            pytz==2020.5
+            requests==2.24.0
+            requests-oauthlib==1.3.0
+            rsa==4.7
+            selenium==3.141.0
+            six==1.15.0
+            soupsieve==2.2
+            uritemplate==3.0.1
+            urllib3==1.25.11
+            Werkzeug==1.0.1
+            xmltodict==0.12.0
+                </code>
+            </pre>
+
+            <h4>檔案 upgrade.py <small class="text-muted">(21.01)</small></h4>
+            <pre>
+                <code class="python">
+            # 更新套件
+            import pkg_resources
+            from subprocess import call
+
+            packages = [dist.project_name for dist in pkg_resources.working_set]
+            call("pip install --upgrade " + ' '.join(packages), shell=True)
+                </code>
+            </pre>
+
+            <h4>檔案 utils.py <small class="text-muted">(21.02)</small></h4>
+            <pre>
+                <code class="python">
+            def get_now():
+                import pytz
+                from datetime import datetime
+                taipei = pytz.timezone('Asia/Taipei')
+                now = datetime.now(taipei)
+                return now
+
+            def get_datetime():
+                now = get_now()
+                return now.strftime("%Y-%m-%d %H:%M:%S")
+
+            def get_nowid():
+                now = get_now()
+                return now.strftime("%y%m%d%H%M")
+
+            def get_sha2(stext, opt=1):
+                import hashlib
+                if opt == 1:
+                    return hashlib.sha256(stext.encode('utf8')).hexdigest()
+                elif opt == 2:
+                    return hashlib.sha384(stext.encode('utf8')).hexdigest()
+                elif opt == 3:
+                    return hashlib.sha512(stext.encode('utf8')).hexdigest()
+
+            if __name__ == '__main__':
+                print('datetime:', get_datetime())
+                print('nowid:', get_nowid())
+                while True:
+                    stext = input('Input a text to get SHA-2 hash (or quit): ')
+                    if stext.lower() in ('q', 'quit'):
+                        break
+                    else:
+                        option = input('1.SHA-256  2.SHA-384  3.SHA-512: ')
+                        if option in '123':
+                            print(get_sha2(stext, int(option)))
+                            print()
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec04" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">Jinja 樣板引擎</h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://jinja.palletsprojects.com/en/2.11.x/">Jinja</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://jinja.palletsprojects.com/en/2.11.x/templates/">Template Designer</a>
+                </div>
+            </div>
+
+            <h4>Jinja2 樣板概念</h4>
+            <table class="table table-sm">
+                <tbody class="text-center">
+                    <tr>
+                        <td>
+                            <h5>base.html</h5>
+                            <div class="jinja-tmplt text-left">
+                                <div class="jinja-block0">jinja variables</div>
+                                &lt;html&gt;<br>
+                                &lt;body&gt;<br>
+                                <div class="jinja-block0">block menu</div>
+                                &lt;h1&gt;Heading 1&lt;/h1&gt;<br>
+                                <div class="jinja-block0">block content</div>
+                                &lt;/body&gt;<br>
+                                &lt;/html&gt;<br>
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle;"><p><span class="html-entity">&#8612;</span><span class="html-entity">&#8614;</span></p></td>
+                        <td>
+                            <h5>home.html</h5>
+                            <div class="jinja-tmplt text-left">
+                                <div class="jinja-block1">jinja variables</div>
+                                &lt;html&gt;<br>
+                                &lt;body&gt;<br>
+                                <div class="jinja-block1">block menu</div>
+                                &lt;h1&gt;Heading 1&lt;/h1&gt;<br>
+                                <div class="jinja-block1">block content</div>
+                                &lt;/body&gt;<br>
+                                &lt;/html&gt;<br>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div id="sec05" class="section-divider"></div>
+        <section class="section-chapter">
+            <h2 class="text-primary">基礎範例</h2>
+            <br>
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>範例</th>
+                        <th>說明</th>
+                        <th>連結</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>base-login.html</td>
+                        <td>登入頁面基本樣板</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>login-home.html</td>
+                        <td>登入頁面樣板</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>base.html</td>
+                        <td>基本樣板</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>home.html</td>
+                        <td>主頁樣板</td>
+                        <td><a target="_self" href="/home">/home</a></td>
+                    </tr>
+                    <tr>
+                        <td>flaskweb.html</td>
+                        <td>本章樣板</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>flaskweb/packages.html</td>
+                        <td>最佳套件</td>
+                        <td><a href="/flaskweb/packages">/flaskweb/packages</a></td>
+                    </tr>
+                    <tr>
+                        <td>flaskweb/movies.html</td>
+                        <td>最愛電影</td>
+                        <td><a href="/flaskweb/movies/all">/flaskweb/movies/all</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+{% endblock %}

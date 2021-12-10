@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+{%- set is_chap = 1 -%}
+{%- set has_code = 1 -%}
+{%- set html_title = '進階檔案操作' -%}
+{%- set en_title = 'Office Documents' -%}
+{%- set zh_title = '進階檔案操作' -%}
+
+{% block menu %}
+                <li class="nav-item"><a class="nav-link" href="#sec01">openpyxl</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec02">python-docx</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec03">PyFPDF</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sec04">PyPDF2</a></li>
+{% endblock %}
+
+{% block content %}
+        <div id="sec00"></div>
+        <section>
+            <h2 class="text-danger">{{ zh_title }}</h2>
+            <hr>
+        </section>
+
+        <div id="sec01" class="section-divider"></div>
+        <section>
+            <h2 class="text-primary">openpyxl <small class="text-muted">(Excel)</small></h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://pypi.org/project/openpyxl/">openpyxl</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://openpyxl.readthedocs.io/en/stable/">Documentation</a>
+                </div>
+            </div>
+
+            <h4>全民英檢字彙</h4>
+            <pre>
+                <code class="python">
+            # 第 1 版
+            import urllib.request
+            import json
+            from openpyxl import Workbook
+
+            word_levels = ('w1', 'w2', 'w3')
+            url = 'http://localhost:5000/ch-crawler/gept-word-list_json/{}'
+
+            for wl in word_levels:
+                req = urllib.request.urlopen(url.format(wl))
+                response_data = req.read()
+                json_data = json.loads(response_data)
+
+                wb = Workbook()
+                ws = wb.active
+
+                for letter in json_data['jsonData']:
+                    for word in letter['words']:
+                        ws.append(word)
+
+                wb.save('gept-word-list-{}.xlsx'.format(wl))
+                </code>
+            </pre>
+
+            <pre>
+                <code class="python">
+            # 第 2 版
+            import urllib.request
+            import json
+            from openpyxl.styles import colors
+            from openpyxl.styles import Font
+            from openpyxl import Workbook
+
+            word_levels = ('w1', 'w2', 'w3')
+            column_names = ['級別', '單字', '意義']
+            url = 'http://localhost:5000/ch-crawler/gept-word-list_json/{}'
+
+            for wl in word_levels:
+                req = urllib.request.urlopen(url.format(wl))
+                response_data = req.read()
+                json_data = json.loads(response_data)
+
+                wb = Workbook()
+                ws = wb.active
+
+                # 設定欄位
+                ws.append(column_names)
+
+                for letter in json_data['jsonData']:
+                    for word in letter['words']:
+                        ws.append(word)
+
+                # 設定字型
+                font_face = 'Consolas'
+                for i, row in enumerate(ws.rows):
+                    for cell in row:
+                        if i == 0:
+                            cell.font = Font(name=font_face, size=12, color=colors.BLUE)
+                        else:
+                            cell.font = Font(name=font_face, size=12)
+
+                wb.save('gept-word-list-{}.xlsx'.format(wl))
+                </code>
+            </pre>
+
+            <pre>
+                <code class="python">
+            # 第 3 版
+            import urllib.request
+            import json
+            from openpyxl.styles import colors
+            from openpyxl.styles import Font
+            from openpyxl import Workbook, load_workbook
+
+            word_levels = ('w1', 'w2', 'w3')
+            column_names = ['級別', '單字', '意義']
+            url = 'http://localhost:5000/ch-crawler/gept-word-list_json/{}'
+
+            for wl in word_levels:
+                req = urllib.request.urlopen(url.format(wl))
+                response_data = req.read()
+                json_data = json.loads(response_data)
+
+                wb = Workbook()
+                ws = wb.active
+
+                # 設定欄位
+                ws.append(column_names)
+
+                for letter in json_data['jsonData']:
+                    for word in letter['words']:
+                        ws.append(word)
+
+                # 設定字型
+                font_face = 'Consolas'
+                for i, row in enumerate(ws.rows):
+                    if i == 0:
+                        for cell in row:
+                            cell.font = Font(name=font_face, size=12, color=colors.BLUE)
+                    else:
+                        for cell in row:
+                            cell.font = Font(name=font_face, size=12)
+
+                wb.save('gept-word-list-{}.xlsx'.format(wl))
+
+                # 再次讀取
+                wb = load_workbook('gept-word-list-{}.xlsx'.format(wl))
+                ws = wb.active
+                for ri, row in enumerate(list(ws.rows)[:4]):
+                    if ri > 0:
+                        for ci, cell in enumerate(row):
+                            if ci > 0:
+                                print(cell.value)
+                print()
+                wb.save('gept-word-list-{}.xlsx'.format(wl))
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec02" class="section-divider"></div>
+        <section>
+            <h2 class="text-primary">python-docx <small class="text-muted">(Word)</small></h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://pypi.org/project/python-docx/">python-docx</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://python-docx.readthedocs.io/en/latest/">Documentation</a>
+                </div>
+            </div>
+
+            <h4>全民英檢字彙</h4>
+            <pre>
+                <code class="python">
+            import urllib.request
+            import json
+            from docx import Document
+            from docx.shared import Inches, Pt
+
+            word_levels = {'w1':'初級', 'w2':'中級', 'w3':'中高級'}
+            column_names = ['級別', '單字', '意義']
+            url = 'http://localhost:5000/ch-crawler/gept-word-list_json/{}'
+
+            for wl in word_levels.keys():
+                req = urllib.request.urlopen(url.format(wl))
+                response_data = req.read()
+                json_data = json.loads(response_data)
+
+                # 設定一般字型
+                document = Document()
+                font = document.styles['Normal'].font
+                font.size = Pt(12)
+
+                # 檔案標題
+                document.add_heading('GEPT 全民英檢字彙表', 0)
+                p = document.add_paragraph()
+                p.add_run('General English Proficiency Test Word Lists').italic = True
+                document.add_heading(word_levels[wl]+'字彙', level=1)
+
+                # 表格標題
+                table = document.add_table(rows=1, cols=3, style="Light Grid")
+                hdr_cells = table.rows[0].cells
+                for i in range(3):
+                    hdr_cells[i].text = column_names[i]
+
+                # 表格內容
+                total = 0
+                counter = 0
+                for letter in json_data['jsonData']:
+                    # 每個級別新增 100 字彙
+                    if total == 100:
+                        break
+                    # 每個字母新增 10 個字彙
+                    counter = 0
+                    for word in letter['words']:
+                        if counter != 0 and counter % 10 == 0:
+                            break
+                        # 新增單字的長度大於等於 5
+                        if len(word[1]) >= 5:
+                            total += 1
+                            counter += 1
+                            word[0] = str(total)
+                            print(word)
+                            row_cells = table.add_row().cells
+                            for i in range(3):
+                                row_cells[i].text = word[i]
+
+                document.save('gept-word-table-{}.docx'.format(wl))
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec03" class="section-divider"></div>
+        <section>
+            <h2 class="text-primary">PyFPDF <small class="text-muted">(PDF)</small></h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://pypi.org/project/fpdf2/">PyFPDF</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://alexanderankin.github.io/pyfpdf/mkdocs_docs/">Documentation</a>
+                </div>
+            </div>
+
+            <h4>全民英檢字彙</h4>
+            <pre>
+                <code class="python">
+            import urllib.request
+            import json
+            from fpdf import FPDF
+
+            word_levels = {'w1':'初級', 'w2':'中級', 'w3':'中高級'}
+            column_names = ['級別', '單字', '意義']
+            url = 'http://localhost:5000/ch-crawler/gept-word-list_json/{}'
+
+            for wl in word_levels.keys():
+                req = urllib.request.urlopen(url.format(wl))
+                response_data = req.read()
+                json_data = json.loads(response_data)
+
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.add_font('msjh', '', 'C:\\Windows\\Fonts\\msjh.ttf', uni=True)
+
+                # 檔案標題
+                pdf.set_font('msjh', '', 16)
+                pdf.set_text_color(0, 0, 255)
+                pdf.write(8, '全民英檢{}字彙\n\n'.format(word_levels[wl]))
+
+                # 字彙列表
+                pdf.set_text_color(20, 20, 20)
+                pdf.set_font('msjh', '', 11)
+                total = 0
+                counter = 0
+
+                for letter in json_data['jsonData']:
+                    # 每個級別新增 100 字彙
+                    if total == 100:
+                        break
+                    # 每個字母新增 10 個字彙
+                    counter = 0
+                    for word in letter['words']:
+                        if counter != 0 and counter % 10 == 0:
+                            break
+                        # 新增單字的長度大於等於 5
+                        if len(word[1]) >= 5:
+                            total += 1
+                            counter += 1
+                            word[0] = str(total)
+                            print(word)
+                            pdf.cell(10, 8, word[0], 1, 0, 'R')
+                            pdf.cell(30, 8, word[1], 1, 0, 'L')
+                            pdf.cell(150, 8, word[2], 1, 1, 'L')
+
+                pdf.output('gept-words-{}.pdf'.format(wl), 'F')
+                </code>
+            </pre>
+        </section>
+
+        <div id="sec04" class="section-divider"></div>
+        <section>
+            <h2 class="text-primary">PyPDF2 <small class="text-muted">(PDF)</small></h2>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://pypi.org/project/PyPDF2/">PyPDF2</a>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <a target="_blank" class="btn btn-lg btn-block btn-info" href="https://pythonhosted.org/PyPDF2/">Documentation</a>
+                </div>
+            </div>
+
+            <h4>PDF 加密</h4>
+            <pre>
+                <code class="python">
+            import PyPDF2
+
+            wordLevels = ('w1', 'w2', 'w3')
+
+            for wl in wordLevels:
+                pdfFile = open('gept-words-{}.pdf'.format(wl), 'rb')
+                pdfReader = PyPDF2.PdfFileReader(pdfFile)
+                pdfWriter = PyPDF2.PdfFileWriter()
+
+                for pageNum in range(pdfReader.numPages):
+                    pdfWriter.addPage(pdfReader.getPage(pageNum))
+
+                pdfWriter.encrypt('swordfish')
+                resultPdf = open('gept-words-{}-encrypted.pdf'.format(wl), 'wb')
+                pdfWriter.write(resultPdf)
+                resultPdf.close()
+                </code>
+            </pre>
+
+            <h4>PDF 解密</h4>
+            <pre>
+                <code class="python">
+            import os
+            import PyPDF2
+            from PyPDF2 import PdfFileReader, PdfFileWriter
+
+            wordLevels = ('w1', 'w2', 'w3')
+
+            for wl in wordLevels:
+                filename = 'gept-words-{}-encrypted.pdf'.format(wl)
+                pdfFile = open(filename, 'rb')
+                pdfReader = PdfFileReader(pdfFile)
+                if pdfReader.isEncrypted:
+                    pdfReader.decrypt('swordfish')
+                    pdfWriter = PdfFileWriter()
+
+                    for pageNum in range(pdfReader.numPages):
+                        pdfWriter.addPage(pdfReader.getPage(pageNum))
+
+                    resultPdf = open('gept-words-{}-decrypted.pdf'.format(wl), 'wb')
+                    pdfWriter.write(resultPdf)
+                    resultPdf.close()
+                    print(filename+' has been decrypted.')
+
+                else:
+                    print(filename+' is not encrypted.')
+                </code>
+            </pre>
+        </section>
+{% endblock %}
